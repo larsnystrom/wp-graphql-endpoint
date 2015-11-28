@@ -2,58 +2,31 @@
 
 namespace WpGraphQL;
 
-use GraphQL\Schema;
-use GraphQL\Type\Definition\ObjectType;
+use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\Type;
-use GraphQL\Type\Definition\ResolveInfo;
 
-class SchemaFactory
+/**
+ * Post interface
+ */
+class PostInterface extends InterfaceType
 {
     public function __construct()
     {
-        $this->wpUtils = new WpUtils();
-    }
-
-    /**
-     * Construct a GraphQL Schema
-     *
-     * @return GraphQL\Schema
-     */
-    public function build()
-    {
-        $postInterface = new PostInterface();
-
-        $postTypes = $this->wpUtils->getPostTypes();
-        $postObjectTypes = [];
-
-        foreach ($postTypes as $key => $type) {
-            $postObjectTypes[$key] = new ObjectType(
-                $this->getPostTypeSpecification($type, $postInterface)
-            );
-        }
-
-        $queryType = new QueryType($postTypes, $postInterface, $postObjectTypes, $this->wpUtils);
-
-        return new Schema($queryType);
-    }
-
-    protected function getPostTypeSpecification($type, PostInterface $postInterface)
-    {
-        return [
-            'name' => $type,
-            'description' => "A post of type {$type}",
+        parent::__construct([
+            'name' => 'Post Interface',
+            'description' => 'A post of any post type',
             'fields' => [
                 'ID' => [
                     'type' => Type::int(),
-                    'description' => "The ID of the {$type}",
+                    'description' => "The ID of the post",
                 ],
                 'post_author' => [
                     'type' => Type::string(),
-                    'description' => "The {$type} author's user ID (numeric string)",
+                    'description' => "The post author's user ID (numeric string)",
                 ],
                 'post_name' => [
                     'type' => Type::string(),
-                    'description' => "The {$type}'s slug",
+                    'description' => "The post's slug",
                 ],
                 'post_type' => [
                     'type' => Type::string(),
@@ -61,7 +34,7 @@ class SchemaFactory
                 ],
                 'post_title' => [
                     'type' => Type::string(),
-                    'description' => "The title of the {$type}",
+                    'description' => "The title of the post",
                 ],
                 'post_date' => [
                     'type' => Type::string(),
@@ -73,11 +46,11 @@ class SchemaFactory
                 ],
                 'post_content' => [
                     'type' => Type::string(),
-                    'description' => "The full content of the {$type}",
+                    'description' => "The full content of the post",
                 ],
                 'post_excerpt' => [
                     'type' => Type::string(),
-                    'description' => "User-defined {$type} excerpt",
+                    'description' => "User-defined post excerpt",
                 ],
                 'post_status' => [
                     'type' => Type::string(),
@@ -109,21 +82,13 @@ class SchemaFactory
                 ],
                 'comment_count' => [
                     'type' => Type::string(),
-                    'description' => "Number of comments on {$type} (numeric string)",
+                    'description' => "Number of comments on post (numeric string)",
                 ],
                 'menu_order' => [
                     'type' => Type::string(),
                     'description' => "Order value as set through page-attribute when enabled (numeric string. Defaults to 0)",
                 ],
             ],
-            'interfaces' => [$postInterface],
-            'isTypeOf' => function ($value, ResolveInfo $info) use ($type) {
-                if (!is_array($value) || !isset($value['post_type'])) {
-                    return false;
-                }
-
-                return ($value['post_type'] === $type);
-            },
-        ];
+        ]);
     }
 }

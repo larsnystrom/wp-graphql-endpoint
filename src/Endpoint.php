@@ -15,17 +15,17 @@ class Endpoint
         //     $data = $_POST;
         // }
 
-        define("QUERY", 'query FetchLukeQuery {
-          human(id: "1000") {
-            name
-            friends {
-              name
-            }
-          }
-        }');
-
         $data = [
-            'query' => QUERY,
+            'query' => 'query FetchPageQuery {
+                page(ID: 2) {
+                    ID
+                    post_title
+                }
+                post(ID: 1) {
+                    ID
+                    post_title
+                }
+            }',
         ];
 
         $requestString = isset($data['query']) ? $data['query'] : null;
@@ -34,7 +34,8 @@ class Endpoint
 
         // try {
             // Define your schema:
-            $schema = SchemaFactory::build();
+            $factory = new SchemaFactory();
+            $schema = $factory->build();
             $result = GraphQL::execute(
                 $schema,
                 $requestString,
