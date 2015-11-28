@@ -8,5 +8,12 @@
             "email": "nystrom.lars.egon@gmail.com"
         }
     ],
-    "require": {}
+    "autoload": {
+        "psr-4": {
+            "WpGraphQL\\": "src/"
+        }
+    },
+    "require": {
+        "webonyx/graphql-php": "dev-master"
+    }
 }
