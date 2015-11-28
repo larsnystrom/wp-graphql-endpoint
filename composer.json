@@ -1,0 +1,12 @@
+{
+    "name": "larsnystrom/wp-graphql-endpoint",
+    "description": "A GraphQL endpoint for WordPress.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lars Nyström",
+            "email": "nystrom.lars.egon@gmail.com"
+        }
+    ],
+    "require": {}
+}
