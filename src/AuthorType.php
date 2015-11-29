@@ -8,7 +8,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 
 class AuthorType extends ObjectType
 {
-    public function __construct(UserInterface $userInterface)
+    public function __construct(UserInterface $userInterface, Acl $acl)
     {
         parent::__construct([
             'name' => 'Author',
@@ -20,6 +20,13 @@ class AuthorType extends ObjectType
                 }
 
                 return ($value['authoredCount'] > 0);
+            },
+            'resolveField' => function (array $value, array $args, ResolveInfo $info) use ($acl) {
+                if (!$acl->isAuthorized($info)) {
+                    return null;
+                }
+
+                return $value[$info->fieldName];
             },
             'fields' => [
                 'id' => [

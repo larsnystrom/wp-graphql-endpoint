@@ -9,9 +9,13 @@ use GraphQL\Type\Definition\ResolveInfo;
 
 class SchemaFactory
 {
+    protected $wpUtils;
+    protected $acl;
+
     public function __construct()
     {
         $this->wpUtils = new WpUtils();
+        $this->acl = new Acl();
     }
 
     /**
@@ -23,7 +27,7 @@ class SchemaFactory
     {
         $userInterface = new UserInterface();
 
-        $authorType = new AuthorType($userInterface);
+        $authorType = new AuthorType($userInterface, $this->acl);
 
         $postInterface = new PostInterface($authorType);
 
@@ -60,6 +64,13 @@ class SchemaFactory
 
                 return ($value['type'] === $type);
             },
+            'resolveField' => function (array $value, array $args, ResolveInfo $info) {
+                if (!$this->acl->isAuthorized($info)) {
+                    return null;
+                }
+
+                return $value[$info->fieldName];
+            },
             'fields' => [
                 'id' => [
                     'type' => Type::int(),
@@ -68,7 +79,7 @@ class SchemaFactory
                 'author' => [
                     'type' => $authorType,
                     'description' => "The {$type} author",
-                    'resolve' => function ($value) {
+                    'resolve' => function (array $value) {
                         return $this->wpUtils->fetchAuthor($value['author']);
                     },
                 ],
