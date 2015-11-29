@@ -33,8 +33,19 @@ class WpHooks
             return;
         }
 
+        if (isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] === 'application/json') {
+            $rawBody = file_get_contents('php://input');
+            $data = json_decode($rawBody ?: '', true);
+        } else {
+            $data = $_POST;
+        }
+
+        $query = isset($data['query']) ? $data['query'] : null;
+        $operation = isset($data['operation']) ? $data['operation'] : null;
+        $variables = isset($data['variables']) ? $data['variables'] : null;
+
         $endpoint = new Endpoint();
-        $endpoint->handleRequest();
+        $endpoint->handleRequest($query, $operation, $variables);
 
         exit();
     }
