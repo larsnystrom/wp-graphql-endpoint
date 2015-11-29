@@ -25,7 +25,7 @@ class WpPostMapper
 
     const FIELD_DEFAULT = [
         'id' => '0',
-        'author' => '',
+        'author' => '0',
         'name' => '',
         'type' => '',
         'title' => '',
@@ -71,6 +71,7 @@ class WpPostMapper
     {
         switch ($field) {
             case 'id' :
+            case 'author' :
             case 'parent' :
             case 'commentCount' :
             case 'menuOrder' :

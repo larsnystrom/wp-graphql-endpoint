@@ -19,7 +19,10 @@ class Endpoint
             'query' => 'query FetchPageQuery {
                 page(id: 2) {
                     id
-                    author
+                    author {
+                        id
+                        displayName
+                    }
                     name
                     type
                     title
@@ -41,14 +44,14 @@ class Endpoint
         //         author(id: 1) {
         //             id
         //             nickname
-        //             first_name
-        //             last_name
-        //             display_name
+        //             firstName
+        //             lastName
+        //             displayName
         //             description
         //             email
         //             url
         //             registered
-        //             authored_count
+        //             authoredCount
         //         }
         //     }',
         // ];

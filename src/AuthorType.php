@@ -15,11 +15,11 @@ class AuthorType extends ObjectType
             'description' => 'A user who has authored some posts',
             'interfaces' => [$userInterface],
             'isTypeOf' => function ($value, ResolveInfo $info) use ($type) {
-                if (!is_array($value) || !isset($value['authored_count'])) {
+                if (!is_array($value) || !isset($value['authoredCount'])) {
                     return false;
                 }
 
-                return ($value['authored_count'] > 0);
+                return ($value['authoredCount'] > 0);
             },
             'fields' => [
                 'id' => [

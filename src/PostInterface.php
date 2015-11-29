@@ -10,7 +10,7 @@ use GraphQL\Type\Definition\Type;
  */
 class PostInterface extends InterfaceType
 {
-    public function __construct()
+    public function __construct(AuthorType $authorType)
     {
         parent::__construct([
             'name' => 'Post Interface',
@@ -21,8 +21,8 @@ class PostInterface extends InterfaceType
                     'description' => "The id of the post",
                 ],
                 'author' => [
-                    'type' => Type::string(),
-                    'description' => "The post author's user id (numeric string)",
+                    'type' => $authorType,
+                    'description' => "The post author",
                 ],
                 'name' => [
                     'type' => Type::string(),

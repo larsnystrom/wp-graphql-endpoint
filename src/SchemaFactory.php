@@ -25,13 +25,13 @@ class SchemaFactory
 
         $authorType = new AuthorType($userInterface);
 
-        $postInterface = new PostInterface();
+        $postInterface = new PostInterface($authorType);
 
         $postTypes = $this->wpUtils->getPostTypes();
 
-        $postObjectTypes = array_map(function ($type) use ($postInterface) {
+        $postObjectTypes = array_map(function ($type) use ($postInterface, $authorType) {
             return new ObjectType(
-                $this->getPostTypeSpecification($type, $postInterface)
+                $this->getPostTypeSpecification($type, $postInterface, $authorType)
             );
         }, $postTypes);
 
@@ -47,7 +47,7 @@ class SchemaFactory
         return new Schema($queryType);
     }
 
-    protected function getPostTypeSpecification($type, PostInterface $postInterface)
+    protected function getPostTypeSpecification($type, PostInterface $postInterface, AuthorType $authorType)
     {
         return [
             'name' => $type,
@@ -66,8 +66,11 @@ class SchemaFactory
                     'description' => "The id of the {$type}",
                 ],
                 'author' => [
-                    'type' => Type::string(),
-                    'description' => "The {$type} author's user id (numeric string)",
+                    'type' => $authorType,
+                    'description' => "The {$type} author",
+                    'resolve' => function ($value) {
+                        return $this->wpUtils->fetchAuthor($value['author']);
+                    },
                 ],
                 'name' => [
                     'type' => Type::string(),
