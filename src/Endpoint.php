@@ -17,16 +17,41 @@ class Endpoint
 
         $data = [
             'query' => 'query FetchPageQuery {
-                page(ID: 2) {
-                    ID
-                    post_title
-                }
-                post(ID: 1) {
-                    ID
-                    post_title
+                page(id: 2) {
+                    id
+                    author
+                    name
+                    type
+                    title
+                    date
+                    content
+                    excerpt
+                    status
+                    commentStatus
+                    pingStatus
+                    parent
+                    modified
+                    commentCount
+                    menuOrder
                 }
             }',
         ];
+        // $data = [
+        //     'query' => 'query FetchPageQuery {
+        //         author(id: 1) {
+        //             id
+        //             nickname
+        //             first_name
+        //             last_name
+        //             display_name
+        //             description
+        //             email
+        //             url
+        //             registered
+        //             authored_count
+        //         }
+        //     }',
+        // ];
 
         $requestString = isset($data['query']) ? $data['query'] : null;
         $operationName = isset($data['operation']) ? $data['operation'] : null;

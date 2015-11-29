@@ -16,77 +16,65 @@ class PostInterface extends InterfaceType
             'name' => 'Post Interface',
             'description' => 'A post of any post type',
             'fields' => [
-                'ID' => [
+                'id' => [
                     'type' => Type::int(),
-                    'description' => "The ID of the post",
+                    'description' => "The id of the post",
                 ],
-                'post_author' => [
+                'author' => [
                     'type' => Type::string(),
-                    'description' => "The post author's user ID (numeric string)",
+                    'description' => "The post author's user id (numeric string)",
                 ],
-                'post_name' => [
+                'name' => [
                     'type' => Type::string(),
                     'description' => "The post's slug",
                 ],
-                'post_type' => [
+                'type' => [
                     'type' => Type::string(),
                     'description' => "See Post Types",
                 ],
-                'post_title' => [
+                'title' => [
                     'type' => Type::string(),
                     'description' => "The title of the post",
                 ],
-                'post_date' => [
+                'date' => [
                     'type' => Type::string(),
-                    'description' => "Format: 0000-00-00 00:00:00",
+                    'description' => "Formatted according to ISO-8601",
                 ],
-                'post_date_gmt' => [
-                    'type' => Type::string(),
-                    'description' => "Format: 0000-00-00 00:00:00",
-                ],
-                'post_content' => [
+                'content' => [
                     'type' => Type::string(),
                     'description' => "The full content of the post",
                 ],
-                'post_excerpt' => [
+                'excerpt' => [
                     'type' => Type::string(),
                     'description' => "User-defined post excerpt",
                 ],
-                'post_status' => [
+                'status' => [
                     'type' => Type::string(),
                     'description' => "See get_post_status for values",
                 ],
-                'comment_status' => [
+                'commentStatus' => [
                     'type' => Type::string(),
                     'description' => "Returns: { open, closed }",
                 ],
-                'ping_status' => [
+                'pingStatus' => [
                     'type' => Type::string(),
                     'description' => "Returns: { open, closed }",
                 ],
-                'post_password' => [
-                    'type' => Type::string(),
-                    'description' => "Returns empty string if no password",
-                ],
-                'post_parent' => [
+                'parent' => [
                     'type' => Type::int(),
-                    'description' => "Parent Post ID (default 0)",
+                    'description' => "Parent Post id (default 0)",
                 ],
-                'post_modified' => [
+                'modified' => [
                     'type' => Type::string(),
-                    'description' => "Format: 0000-00-00 00:00:00",
+                    'description' => "Formatted according to ISO-8601",
                 ],
-                'post_modified_gmt' => [
-                    'type' => Type::string(),
-                    'description' => "Format: 0000-00-00 00:00:00",
+                'commentCount' => [
+                    'type' => Type::int(),
+                    'description' => "Number of comments on post",
                 ],
-                'comment_count' => [
-                    'type' => Type::string(),
-                    'description' => "Number of comments on post (numeric string)",
-                ],
-                'menu_order' => [
-                    'type' => Type::string(),
-                    'description' => "Order value as set through page-attribute when enabled (numeric string. Defaults to 0)",
+                'menuOrder' => [
+                    'type' => Type::int(),
+                    'description' => "Order value as set through page-attribute when enabled",
                 ],
             ],
         ]);

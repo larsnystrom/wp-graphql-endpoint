@@ -11,20 +11,35 @@ class QueryType extends ObjectType
         array $postTypes,
         PostInterface $postInterface,
         array $postObjectTypes,
+        AuthorType $authorType,
         WpUtils $wpUtils
     ) {
-        $fields = [];
-        foreach ($postTypes as $key => $type) {
-            $fields[$type] = [
-                'type' => $postObjectTypes[$key],
+        $fields = [
+            'author' => [
+                'type' => $authorType,
                 'args' => [
-                    'ID' => [
-                        'description' => "The ID of the {$type}",
+                    'id' => [
+                        'description' => "The id of the author",
                         'type' => Type::nonNull(Type::int()),
                     ],
                 ],
                 'resolve' => function ($root, $args) use ($wpUtils) {
-                    return $wpUtils->fetchPost($args['ID']);
+                    return $wpUtils->fetchAuthor($args['id']);
+                },
+            ],
+        ];
+
+        foreach ($postTypes as $key => $type) {
+            $fields[$type] = [
+                'type' => $postObjectTypes[$key],
+                'args' => [
+                    'id' => [
+                        'description' => "The id of the {$type}",
+                        'type' => Type::nonNull(Type::int()),
+                    ],
+                ],
+                'resolve' => function ($root, $args) use ($wpUtils) {
+                    return $wpUtils->fetchPost($args['id']);
                 }
             ];
         }
